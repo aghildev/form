@@ -1,0 +1,25 @@
+/* Toast.module.css */
+.toastContainer {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    background-color: green;
+    color: #fff;
+    padding: 10px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    z-index: 1000;
+}
+
+.toastMessage {
+    flex: 1;
+}
+
+.toastCloseButton {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+}
