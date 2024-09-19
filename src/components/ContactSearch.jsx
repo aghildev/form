@@ -4,18 +4,20 @@ import Modal from './Modal';
 import CreateContact from './CreateContact';
 import DealForm from './DealForm';
 import Toast from './Toast';
-
+import RecurringPlanForm from './RecurringPlanForm';
 const associateDealFields = [
     { name: 'contact', label: 'Contact *', type: 'dropdown', options: ['Aghil', 'Anwin', 'Anna'] },
-    { name: 'recurring plan', label: 'Recurring Plan *', type: 'dropdown', options: ['Plan 1', 'Plan 2', 'Plan 3'] },
+    // { name: 'recurring plan', label: 'Recurring Plan *', type: 'dropdown', options: ['Plan 1', 'Plan 2', 'Plan 3'] },
 ];
 
 const ContactSearch = () => {
     const [formData, setFormData] = useState({});
     const [activeDropdown, setActiveDropdown] = useState({});
-    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isPlanModalOpen, setIsPlanModalOpen] = useState(false);
     const [isFormValid, setIsFormValid] = useState(false);
     const [showDealForm, setShowDealForm] = useState(false);
+    const [showRecurringPlanForm, setShowRecurrigPlanForm] = useState(false);
+    const [isModalOpen, setIsModalOpen] = useState(false);
     const [toast, setToast] = useState(null);
 
     useEffect(() => {
@@ -32,11 +34,31 @@ const ContactSearch = () => {
 
     const handleDropdownChange = (name, value) => {
         setFormData(prev => ({ ...prev, [name]: value }));
+        if (name === 'contact') {
+            setIsPlanModalOpen(true); // Open modal when contact is selected
+        }
     };
 
     const handleDropdownToggle = (name) => {
         setActiveDropdown(prev => ({ ...prev, [name]: !prev[name] }));
     };
+
+    const handlePlanSelect = (planType) => {
+        console.log(`Selected plan: ${planType}`);
+        setIsPlanModalOpen(false); // Close modal after selection
+    };
+    const handleOneTimePlan = () => {
+        setIsPlanModalOpen(false);
+        // setContactSearch(false)
+        setShowDealForm(true);
+
+    }
+
+    const handleRecurringPlan = () => {
+        setIsPlanModalOpen(false);
+        // setContactSearch(false)
+        setShowRecurrigPlanForm(true);
+    }
     const handleSubmit = () => {
         console.log('Form Data:', formData);
         setToast('Deal associated successfully!');
@@ -49,14 +71,16 @@ const ContactSearch = () => {
         setFormData({});
         setActiveDropdown({});
     };
-
-
     const handleCloseModal = () => {
         setIsModalOpen(false);
     };
 
     if (showDealForm) {
         return <DealForm />;
+    }
+
+    if (showRecurringPlanForm) {
+        return <RecurringPlanForm />
     }
 
     return (
@@ -76,7 +100,7 @@ const ContactSearch = () => {
                             }}
                             onToggle={() => handleDropdownToggle(field.name)}
                             openModal={() => setIsModalOpen(true)}
-                            selectedOption={formData[field.name] || ''} // Ensure selectedOption reflects formData
+                            selectedOption={formData[field.name] || ''} 
                         />
                     ) : (
                         <InputField
@@ -97,7 +121,21 @@ const ContactSearch = () => {
                 Create
             </button>
 
-            {/* Modal for creating new contact */}
+            {/* Plan Selection Modal */}
+            <Modal isOpen={isPlanModalOpen} onClose={() => setIsPlanModalOpen(false)}>
+                <div className={styles.planModalContent}>
+                    <h3 className={styles.planHeading}>Please select Frequency</h3>
+                    <div className={styles.planButtonContainer}>
+                        <button className={styles.planButton} onClick={handleOneTimePlan}>
+                            One Time Plan
+                        </button>
+                        <button className={styles.planButton} onClick={handleRecurringPlan}>
+                            Recurring Plan
+                        </button>
+                    </div>
+                </div>
+            </Modal>
+
             <Modal isOpen={isModalOpen} onClose={handleCloseModal}>
                 <CreateContact onClose={handleCloseModal} />
             </Modal>
@@ -154,11 +192,12 @@ const SearchableDropdown = ({ name, options, isOpen, onSelect, onToggle, openMod
                             ))
                         ) : (
                             <div className={styles.noRecordsContainer}>
-                                <li className={styles.noRecords}>No records found</li>
-                                <button onClick={openModal} className={styles.createButton}>
-                                    Create contact
-                                </button>
-                            </div>
+                                    <li className={styles.noRecords}>No records found</li>
+                                    <button onClick={openModal} className={styles.createButton}>
+                                        Create contact
+                                    </button>
+                                </div>
+
                         )}
                     </ul>
                 </div>
@@ -168,6 +207,10 @@ const SearchableDropdown = ({ name, options, isOpen, onSelect, onToggle, openMod
 };
 
 export default ContactSearch;
+
+
+
+
 
 
 

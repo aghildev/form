@@ -9,7 +9,7 @@ const fields = [
     { name: 'lastName', label: 'Last Name', type: 'text' },
     { name: 'primaryCountry', label: 'Primary Country', type: 'text' },
     { name: 'prefferedLanguage', label: 'Preffered Language', type: 'text' },
-    { name: 'mobileNumber', label: 'Mobile Number', type: 'number' },
+    { name: 'mobileNumber', label: 'Mobile Number', type: 'text' },
     { name: 'billingAddressLine1', label: 'Billing Address Line 1', type: 'text' },
     { name: 'billingCity', label: 'Billing City', type: 'text' },
     { name: 'billingState', label: 'Billing State/Region', type: 'text' },
@@ -19,7 +19,7 @@ const fields = [
     { name: 'eventName', label: 'Event Name', type: 'text' },
     { name: 'eventLocation', label: 'Event Location', type: 'text' },
     { name: 'isFamilyMember', label: 'Is Family Member', type: 'dropdown', options: ['Yes', 'No'] },
-    { name: 'secondaryPhoneNumber', label: 'Secondary Phone Number', type: 'number' },
+    { name: 'secondaryPhoneNumber', label: 'Secondary Phone Number', type: 'text' },
     { name: 'secondaryLanguage', label: 'Secondary Language', type: 'text' },
     { name: 'shalomCategory', label: 'Shalom Category', type: 'text' },
     { name: 'gender', label: 'Gender', type: 'dropdown', options: ['Male', 'Female', 'Transgender'] },
@@ -75,6 +75,7 @@ const CreateContact = ({ onClose }) => {
                     &times;
                 </button>
                 <div className={styles.formContainer}>
+                    <h1 className={styles.formHeading}>Create Contact</h1>
                     {fields.map((field, index) => (
                         <div key={index} className={styles.formGroup}>
                             <label>
